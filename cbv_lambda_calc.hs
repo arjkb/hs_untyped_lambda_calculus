@@ -7,8 +7,9 @@ replace :: String -> Char -> [Char] -> String
 -- replace word ch ch_new = if  Data.List.elem ch word
 --   then replace
 --   else word
+replace [] _ _ = []
 replace (x:xs) ch ch_new = if x == ch
-  then ch_new ++ xs
+  then ch_new ++ (replace xs ch ch_new)
   else x:(replace xs ch ch_new)
 -- https://stackoverflow.com/questions/19545253/haskell-replace-characters-in-string
 
