@@ -22,9 +22,13 @@ data Term = Var String
 -- [x -> t1] t2
 -- replace all free occurences of x in t1 by t2
 -- subst s (Lambda a (Var b)) (Var f) = Var x where
---   x = replace b a (f !! 0)
+  -- x = replace b a f
+  -- x = replace
+
+subst:: Term -> Term -> Term
+subst (Lambda a (Var b))(Var z) = Var (replace b a z)
 
 
 a = Var "xy"
 t1 = Lambda 'x' a
-t2 = Var "x"
+t2 = Var "z"
