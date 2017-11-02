@@ -14,7 +14,7 @@ replace (x:xs) ch ch_new = if x == ch
 -- https://stackoverflow.com/questions/19545253/haskell-replace-characters-in-string
 
 data Term = Var String
-  | Lambda Char Term
+  | Lambda String Term
   | Application Term Term
   deriving (Show, Eq)
 
