@@ -23,6 +23,7 @@ subst (Var x) (Var y) s = if x == y
   then s
   else (Var y)
 subst x (Application t1 t2) s = Application (subst x t1 s) (subst x t2 s)
+subst x (Lambda y t) s = Lambda y (subst x t s) --problematic
 
 x = Var "x"
 xx = Var "x"
