@@ -19,9 +19,10 @@ data Term = Var String
   deriving (Show, Eq)
 
 subst :: Term -> Term -> Term -> Term
-subst (Var x) (Var y) r = if x == y
-  then r
+subst (Var x) (Var y) s = if x == y
+  then s
   else (Var y)
+subst x (Application t1 t2) s = Application (subst x t1 s) (subst x t2 s)
 -- subst::String -> Term -> Term -> Term
 -- [x -> t1] t2
 -- replace all free occurences of x in t1 by t2
