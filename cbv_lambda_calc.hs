@@ -11,7 +11,6 @@ import Data.List
 -- replace (x:xs) ch ch_new = if x == ch
 --   then ch_new ++ (replace xs ch ch_new)
 --   else x:(replace xs ch ch_new)
--- -- https://stackoverflow.com/questions/19545253/haskell-replace-characters-in-string
 
 data Term = Var String
   | Lambda String Term
