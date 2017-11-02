@@ -19,6 +19,7 @@ data Term = Var String
   deriving (Show, Eq)
 
 subst :: Term -> Term -> Term -> Term
+-- [x -> s]y
 subst (Var x) (Var y) s = if x == y
   then s
   else (Var y)
@@ -29,7 +30,19 @@ isValue :: Term -> Bool
 isValue (Lambda _ _) = True
 isValue _ = False
 
-x = Var "x"
-xx = Var "x"
-y = Var "y"
-z = Lambda "K" (Var "L")
+eval1 :: Term -> Term -> Term
+eval1 (Lambda x t12) v2 = subst (Var x) t12 v2
+-- eval1 t1 t2 = if isValue t1
+--   then if isValue t2
+--     then subst  -- E_APPABS
+--     else expression -- E_APP2
+--   else expression -- E_APP1
+
+-- x = Var "x"
+-- xx = Var "x"
+-- y = Var "y"
+-- z = Lambda "K" (Var "L")
+
+a = Lambda "x" (Var "x")
+aa = Lambda "x" (Var "g")
+b = Var "y"
