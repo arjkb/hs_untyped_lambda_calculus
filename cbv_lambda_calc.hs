@@ -14,10 +14,14 @@ replace (x:xs) ch ch_new = if x == ch
 -- https://stackoverflow.com/questions/19545253/haskell-replace-characters-in-string
 
 data Term = Var String
-  | Lambda Char Term
+  | Lambda String Term
   | Application Term Term
   deriving (Show, Eq)
 
+subst :: Term -> Term -> Term -> Term
+subst (Var x) (Var y) r = if x == y
+  then r
+  else (Var y)
 -- subst::String -> Term -> Term -> Term
 -- [x -> t1] t2
 -- replace all free occurences of x in t1 by t2
@@ -25,10 +29,8 @@ data Term = Var String
   -- x = replace b a f
   -- x = replace
 
-subst:: Term -> Term -> Term
-subst (Lambda a (Var b))(Var z) = Var (replace b a z)
 
-
-a = Var "xy"
-t1 = Lambda 'x' a
-t2 = Var "z"
+x = Var "x"
+xx = Var "x"
+y = Var "y"
+z = Lambda "K" (Var "L")
