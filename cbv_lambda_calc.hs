@@ -25,6 +25,10 @@ subst (Var x) (Var y) s = if x == y
 subst x (Application t1 t2) s = Application (subst x t1 s) (subst x t2 s)
 subst x (Lambda y t) s = Lambda y (subst x t s) --problematic
 
+isValue :: Term -> Bool
+isValue (Lambda _ _) = True
+isValue _ = False
+
 x = Var "x"
 xx = Var "x"
 y = Var "y"
