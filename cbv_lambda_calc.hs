@@ -1,16 +1,4 @@
--- type Variable = String
--- data Variable = Var Char deriving(Show)
-
 import Data.List
--- replace :: String -> Char -> [Char] -> String
--- -- replace word ch ch_new = map (\letter -> if letter == ch then ch_new else letter) word
--- -- replace word ch ch_new = if  Data.List.elem ch word
--- --   then replace
--- --   else word
--- replace [] _ _ = []
--- replace (x:xs) ch ch_new = if x == ch
---   then ch_new ++ (replace xs ch ch_new)
---   else x:(replace xs ch ch_new)
 
 data Term = Var String
   | Lambda String Term
@@ -57,17 +45,8 @@ eval1 (Application v1@(Lambda _ _) t2) = case (eval1 t2) of
 eval1 (Application t1 t2) = case (eval1 t1) of
     Just t -> Just (Application t t2)
     otherwise -> Nothing
-    
-eval1 _ = Nothing
 
--- eval1 :: Term -> Term -> Maybe Term
--- eval1 (Lambda x t12) v2 = Just (subst (Var x) t12 v2) -- E_APPABS
--- eval1 _ _ = Nothing
--- eval1 t1 t2 = if isValue t1
---   then if isValue t2
---     then subst  -- E_APPABS
---     else expression -- E_APP2
---   else expression -- E_APP1
+eval1 _ = Nothing
 
 -- x = Var "x"
 -- xx = Var "x"
