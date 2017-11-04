@@ -48,6 +48,11 @@ eval1 (Application t1 t2) = case (eval1 t1) of
 
 eval1 _ = Nothing
 
+
+eval :: Term -> Term
+eval t = case (eval1 t) of
+  Just t' -> eval t'
+  Nothing -> t
 -- x = Var "x"
 -- xx = Var "x"
 -- y = Var "y"
