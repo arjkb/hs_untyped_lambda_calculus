@@ -23,11 +23,22 @@ subst (Var x) (Var y) s = if x == y
   then s
   else (Var y)
 subst x (Application t1 t2) s = Application (subst x t1 s) (subst x t2 s)
-subst x (Lambda y t) s = Lambda y (subst x t s) --problematic
+
+-- subst x (Lambda y t) s = Lambda y (subst x t s) --problematic
+
+-- this is the capture-avoiding part
+subst (Var x) (Lambda y t) (Var s) = if s == y
+  then Var x  -- INCORRECT!
+  else Lambda y (subst (Var x) t (Var s))
 
 isValue :: Term -> Bool
 isValue (Lambda _ _) = True
 isValue _ = False
+
+x = Var "x"
+t = Lambda "z" x
+yt = Lambda "y" x
+y = Var "y"
 
 -- eval1 :: Term -> Term -> Maybe Term
 -- eval1 (Lambda x t12) v2 = Just (subst (Var x) t12 v2) -- E_APPABS
