@@ -29,9 +29,9 @@ isValue :: Term -> Bool
 isValue (Lambda _ _) = True
 isValue _ = False
 
-eval1 :: Term -> Term -> Maybe Term
-eval1 (Lambda x t12) v2 = Just (subst (Var x) t12 v2) -- E_APPABS
-eval1 _ _ = Nothing
+-- eval1 :: Term -> Term -> Maybe Term
+-- eval1 (Lambda x t12) v2 = Just (subst (Var x) t12 v2) -- E_APPABS
+-- eval1 _ _ = Nothing
 -- eval1 t1 t2 = if isValue t1
 --   then if isValue t2
 --     then subst  -- E_APPABS
