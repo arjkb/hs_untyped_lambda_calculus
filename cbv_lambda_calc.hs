@@ -40,6 +40,15 @@ t = Lambda "z" x
 yt = Lambda "y" x
 y = Var "y"
 
+appl = Application t yt
+
+
+eval1 :: Term -> Maybe Term
+
+-- E_APPABS: (Lx.t)v -> [x->v]t
+eval1 (Application (Lambda x t) v2@(Lambda _ _)) = Just (subst (Var x) t v2)
+eval1 _ = Nothing
+
 -- eval1 :: Term -> Term -> Maybe Term
 -- eval1 (Lambda x t12) v2 = Just (subst (Var x) t12 v2) -- E_APPABS
 -- eval1 _ _ = Nothing
