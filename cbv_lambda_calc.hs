@@ -52,6 +52,12 @@ eval1 (Application (Lambda x t) v2@(Lambda _ _)) = Just (subst (Var x) t v2)
 eval1 (Application v1@(Lambda _ _) t2) = case (eval1 t2) of
   Just x -> Just (Application v1 x)
   otherwise -> Nothing
+
+-- E_APPP1
+eval1 (Application t1 t2) = case (eval1 t1) of
+    Just t -> Just (Application t t2)
+    otherwise -> Nothing
+    
 eval1 _ = Nothing
 
 -- eval1 :: Term -> Term -> Maybe Term
