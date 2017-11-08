@@ -51,11 +51,6 @@ eval1 (Application t1 t2) = if isValue t1
     Just t -> Just (Application t t2)
     otherwise -> Nothing
 
--- E_APPP1
--- eval1 (Application t1 t2) = case (eval1 t1) of
---     Just t -> Just (Application t t2)
---     otherwise -> Nothing
-
 eval1 _ = Nothing
 
 
