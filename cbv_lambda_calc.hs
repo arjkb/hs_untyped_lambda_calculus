@@ -20,8 +20,9 @@ subst x (Application t1 t2) s = Application (subst x t1 s) (subst x t2 s)
 
 -- this is the capture-avoiding part
 -- abstraction case
-subst (Var x) (Lambda y t) (Var s) = if s == y
-  then Var x  -- INCORRECT!
+subst a@(Var x) b@(Lambda y t) c@(Var s) = if s == y
+  -- then Var x  -- INCORRECT!
+  then Application (Application a b) c
   else Lambda y (subst (Var x) t (Var s))
 
 isValue :: Term -> Bool
