@@ -41,15 +41,19 @@ eval1 :: Term -> Maybe Term
 -- E_APPABS: (Lx.t)v -> [x->v]t
 eval1 (Application (Lambda x t) v2@(Lambda _ _)) = Just (subst (Var x) t v2)
 
--- E_APP2
-eval1 (Application v1@(Lambda _ _) t2) = case (eval1 t2) of
-  Just x -> Just (Application v1 x)
-  otherwise -> Nothing
 
--- E_APPP1
-eval1 (Application t1 t2) = case (eval1 t1) of
+eval1 (Application t1 t2) = if isValue t1
+  then case (eval1 t2) of   -- E_APP2
+    Just t -> Just (Application t1 t)
+    otherwise -> Nothing
+  else case (eval1 t1) of   -- E_APP1
     Just t -> Just (Application t t2)
     otherwise -> Nothing
+
+-- E_APPP1
+-- eval1 (Application t1 t2) = case (eval1 t1) of
+--     Just t -> Just (Application t t2)
+--     otherwise -> Nothing
 
 eval1 _ = Nothing
 
