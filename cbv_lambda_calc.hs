@@ -1,11 +1,9 @@
-import Data.List
-
 data Term = Var String    -- variable
   | Lambda String Term    -- abstraction
   | Application Term Term -- application
   deriving (Show, Eq)
 
-  -- [x -> s]y
+-- [x -> s]y
 subst :: Term -> Term -> Term -> Term
 
 -- variable case
@@ -17,13 +15,6 @@ subst (Var x) s (Var y) = if x == y
 subst x s (Application t1 t2)  = Application (subst x s t1) (subst x s t2)
 
 -- abstraction case
--- subst a@(Var x) b@(Var s) c@(Lambda y t) =
---   (Lambda y (subst a b t))
-
--- subst a@(Var x) b@(Var s) c@(Lambda y t) = if s == y
---   then Application a (Application b c)
---   else Lambda y (subst a b t)
-
 subst a@(Var x) b c@(Lambda y t) = if x == y
   then c
   else Lambda y (subst a b t)
@@ -32,16 +23,8 @@ isValue :: Term -> Bool
 isValue (Lambda _ _) = True
 isValue _ = False
 
-x = Var "x"
-t = Lambda "z" x
-yt = Lambda "y" x
-y = Var "y"
-
-appl = Application t yt
-
 
 eval1 :: Term -> Maybe Term
-
 -- E_APPABS: (Lx.t)v -> [x->v]t
 eval1 (Application (Lambda x t) v2) = if isValue v2
   then Just (subst (Var x) v2 t)
@@ -62,11 +45,3 @@ eval :: Term -> Term
 eval t = case (eval1 t) of
   Just t' -> eval t'
   Nothing -> t
--- x = Var "x"
--- xx = Var "x"
--- y = Var "y"
--- z = Lambda "K" (Var "L")
-
-a = Lambda "x" (Var "x")
-aa = Lambda "x" (Var "g")
-b = Var "y"
