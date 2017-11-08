@@ -5,8 +5,8 @@ data Term = Var String    -- variable
   | Application Term Term -- application
   deriving (Show, Eq)
 
+  -- [x -> s]y
 subst :: Term -> Term -> Term -> Term
--- [x -> s]y
 
 -- variable case
 subst (Var x) (Var y) s = if x == y
@@ -16,12 +16,8 @@ subst (Var x) (Var y) s = if x == y
 -- application case
 subst x (Application t1 t2) s = Application (subst x t1 s) (subst x t2 s)
 
--- subst x (Lambda y t) s = Lambda y (subst x t s) --problematic
-
--- this is the capture-avoiding part
 -- abstraction case
 subst a@(Var x) b@(Lambda y t) c@(Var s) = if s == y
-  -- then Var x  -- INCORRECT!
   then Application (Application a b) c
   else Lambda y (subst (Var x) t (Var s))
 
