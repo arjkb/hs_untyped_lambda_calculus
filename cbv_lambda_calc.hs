@@ -9,17 +9,17 @@ data Term = Var String    -- variable
 subst :: Term -> Term -> Term -> Term
 
 -- variable case
-subst (Var x) (Var y) s = if x == y
+subst (Var x) s (Var y) = if x == y
   then s
   else (Var y)
 
 -- application case
-subst x (Application t1 t2) s = Application (subst x t1 s) (subst x t2 s)
+subst x s (Application t1 t2)  = Application (subst x s t1) (subst x s t2)
 
 -- abstraction case
-subst a@(Var x) b@(Lambda y t) c@(Var s) = if s == y
+subst a@(Var x) c@(Var s) b@(Lambda y t) = if s == y
   then Application (Application a b) c
-  else Lambda y (subst (Var x) t (Var s))
+  else Lambda y (subst (Var x) (Var s) t)
 
 isValue :: Term -> Bool
 isValue (Lambda _ _) = True
@@ -37,7 +37,7 @@ eval1 :: Term -> Maybe Term
 
 -- E_APPABS: (Lx.t)v -> [x->v]t
 eval1 (Application (Lambda x t) v2) = if isValue v2
-  then Just (subst (Var x) t v2)
+  then Just (subst (Var x) v2 t)
   else Nothing
 
 eval1 (Application t1 t2) = if isValue t1
