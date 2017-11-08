@@ -17,9 +17,16 @@ subst (Var x) s (Var y) = if x == y
 subst x s (Application t1 t2)  = Application (subst x s t1) (subst x s t2)
 
 -- abstraction case
-subst a@(Var x) c@(Var s) b@(Lambda y t) = if s == y
-  then Application (Application a b) c
-  else Lambda y (subst (Var x) (Var s) t)
+-- subst a@(Var x) b@(Var s) c@(Lambda y t) =
+--   (Lambda y (subst a b t))
+
+-- subst a@(Var x) b@(Var s) c@(Lambda y t) = if s == y
+--   then Application a (Application b c)
+--   else Lambda y (subst a b t)
+
+subst a@(Var x) b c@(Lambda y t) = if x == y
+  then c
+  else Lambda y (subst a b t)
 
 isValue :: Term -> Bool
 isValue (Lambda _ _) = True
