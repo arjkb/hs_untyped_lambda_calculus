@@ -39,8 +39,9 @@ appl = Application t yt
 eval1 :: Term -> Maybe Term
 
 -- E_APPABS: (Lx.t)v -> [x->v]t
-eval1 (Application (Lambda x t) v2@(Lambda _ _)) = Just (subst (Var x) t v2)
-
+eval1 (Application (Lambda x t) v2) = if isValue v2
+  then Just (subst (Var x) t v2)
+  else Nothing
 
 eval1 (Application t1 t2) = if isValue t1
   then case (eval1 t2) of   -- E_APP2
